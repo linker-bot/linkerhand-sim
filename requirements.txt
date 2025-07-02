@@ -1,0 +1,16 @@
+dm_env
+pexpect
+pyquaternion
+pyagxrobots
+pycryptodome
+ipython
+PyYAML
+tqdm
+wandb
+pybullet
+mediapipe
+pyqt5
+pyqtgraph
+dm_control
+uvicorn
+mujoco

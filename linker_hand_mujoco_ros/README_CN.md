@@ -16,8 +16,10 @@ $ git clone --filter=blob:none --no-checkout https://github.com/linkerbotai/link
 $ cd linker_hand_sim
 # 2. 启用稀疏检出功能
 $ git sparse-checkout init --cone
-# 3. 指定你要的目录（比如只要 repo 下的 src/ 目录）
+# 3. 指定你要的目录
 $ git sparse-checkout set linker_hand_mujoco_ros/
+$ cd Linker_Hand_Mujoco_ros/src/linker_hand_sim/
+$ pip install -r requirements.txt
 ```
 - 修改linker_hand_mujoco_ros/launch/linker_hand_mujoco.launch
 根据文件内参数说明修改即可
