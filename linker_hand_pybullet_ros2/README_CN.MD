@@ -11,13 +11,12 @@ LinkerHand 灵巧手 ROS2 SDK 是由灵心巧手（北京）科技有限公司�
 ```bash
 $ mkdir -p linker_hand_pybullet_ros2/src    #创建目录
 $ cd linker_hand_pybullet_ros2/src    #进入目录
-$ # 1. 克隆仓库（但不检出文件）
-$ git clone --filter=blob:none --no-checkout https://github.com/linkerbotai/linker_hand_sim.git
+$ # 1. 克隆仓库（使用 sparse 模式 + blob 过滤，节省空间）
+$ git clone --filter=blob:none --sparse https://github.com/linkerbotai/linker_hand_sim.git
+$ # 2. 进入仓库目录
 $ cd linker_hand_sim
-# 2. 启用稀疏检出功能
-$ git sparse-checkout init --cone
-# 3. 指定你要的目录
-$ git sparse-checkout set linker_hand_pybullet_ros2/
+$ # 3. 设置 sparse-checkout 目录
+$ git sparse-checkout set linker_hand_pybullet_ros2
 $ cd linker_hand_pybullet_ros2/src/linker_hand_sim/
 $ pip install -r requirements.txt
 ```
