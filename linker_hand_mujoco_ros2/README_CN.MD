@@ -12,7 +12,7 @@ LinkerHand 灵巧手 ROS2 SDK 是由灵心巧手（北京）科技有限公司�
 $ mkdir -p linker_hand_mujoco_ros2/src    #创建目录
 $ cd linker_hand_mujoco_ros2/src    #进入目录
 $ # 1. 克隆仓库（使用 sparse 模式 + blob 过滤，节省空间）
-$ git clone --filter=blob:none --sparse https://github.com/linkerbotai/linker_hand_sim.git
+$ git clone --filter=blob:none --sparse https://github.com/linker-bot/linkerhand-sim.git
 $ # 2. 进入仓库目录
 $ cd linker_hand_sim
 $ # 3. 设置 sparse-checkout 目录
