@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
@@ -10,8 +9,8 @@ def generate_launch_description():
             name='linker_hand_mujoco_ros2_node',
             output='screen',
             parameters=[{
-                'hand_type': 'left',
-                'hand_joint': "L21",
+                'hand_type': 'right',
+                'hand_joint': "L6",
                 'topic_hz': 30,
                 'is_touch': True,
             }],

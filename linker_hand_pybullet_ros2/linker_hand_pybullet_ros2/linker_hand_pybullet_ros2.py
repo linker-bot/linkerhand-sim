@@ -5,6 +5,20 @@ from std_msgs.msg import String
 from sensor_msgs.msg import JointState
 
 from .utils.mapping import *
+L6_MAPPING = {
+    0: 1,
+    1: 0,
+    2: 0,
+    3: 2,
+    4: 2,
+    5: 3,
+    6: 3,
+    7: 4,
+    8: 4,
+    9: 5,
+    10: 5,
+    
+}
 L7_MAPPING = {
     0: (6, 1),
     1: (1, 1),
@@ -81,7 +95,10 @@ class LinkerHandPyBulletNode(Node):
     def init_sim(self):
         urdf_path_left = f"{self.current_dir}/urdf/{self.hand_joint.lower()}/left/linkerhand_{self.hand_joint.lower()}_left.urdf"
         urdf_path_right = f"{self.current_dir}/urdf/{self.hand_joint.lower()}/right/linkerhand_{self.hand_joint.lower()}_right.urdf"
-        if self.hand_joint == "L7":
+        if self.hand_joint == "L6":
+            from linker_hand_pybullet_ros2.utils.l6_sim_controller import L6SimController
+            self.sim_controller = L6SimController(urdf_path_left=urdf_path_left, urdf_path_right=urdf_path_right)
+        elif self.hand_joint == "L7":
             from linker_hand_pybullet_ros2.utils.l7_sim_controller import L7SimController
             self.sim_controller = L7SimController(urdf_path_left=urdf_path_left, urdf_path_right=urdf_path_right)
         elif self.hand_joint == "L10":
@@ -138,7 +155,12 @@ class LinkerHandPyBulletNode(Node):
     def left_hand_cb(self, msg):
         left_hand_pos = [0] * 25
         if len(msg.position) > 0 :
-            if self.hand_joint == "L7":
+            if self.hand_joint == "L6":
+                cmd_left_pos = range_to_arc_left(left_range=list(msg.position),hand_joint="L6")
+                for target_idx, source_idx in L6_MAPPING.items():
+                    left_hand_pos[target_idx] = cmd_left_pos[source_idx]
+                self.sim_controller.set_left_position(pos=left_hand_pos)
+            elif self.hand_joint == "L7":
                 cmd_left_pos = range_to_arc_left(left_range=list(msg.position),hand_joint="L7")
                 for target_idx, (source_idx, multiplier) in L7_MAPPING.items():
                     left_hand_pos[target_idx] = cmd_left_pos[source_idx] * multiplier
@@ -161,7 +183,12 @@ class LinkerHandPyBulletNode(Node):
     
     def right_hand_cb(self, msg):
         right_hand_pos = [0] * 25
-        if self.hand_joint == "L7":
+        if self.hand_joint == "L6":
+            cmd_right_pos = range_to_arc_right(right_range=list(msg.position),hand_joint="L6")
+            for target_idx, source_idx in L6_MAPPING.items():
+                right_hand_pos[target_idx] = cmd_right_pos[source_idx]
+            self.sim_controller.set_right_position(pos=right_hand_pos)
+        elif self.hand_joint == "L7":
             cmd_right_pos = range_to_arc_right(right_range=list(msg.position),hand_joint="L7")
             for target_idx, (source_idx, multiplier) in L7_MAPPING.items():
                 right_hand_pos[target_idx] = cmd_right_pos[source_idx] * multiplier

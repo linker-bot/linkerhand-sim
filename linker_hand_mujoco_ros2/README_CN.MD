@@ -19,6 +19,7 @@ $ # 3. 设置 sparse-checkout 目录
 $ git sparse-checkout set linker_hand_mujoco_ros2
 $ cd linker_hand_mujoco_ros2/src/linker_hand_sim/
 $ pip install -r requirements.txt
+$ /usr/bin/python3 -m pip install mujoco # 使用ROS2调用mujoco必须使用系统环境下的python3安装
 ```
 - 修改linker_hand_mujoco_ros2/launch/linker_hand_mujoco_ros2.launch.py
 根据文件内参数说明修改即可
@@ -43,6 +44,8 @@ ros2 topic pub /joint_states sensor_msgs/msg/JointState '
 
 ```
 - position 说明
+  L6:  ["大拇指弯曲", "大拇指横摆","食指弯曲", "中指弯曲", "无名指弯曲", "小拇指弯曲"]
+  
   L7:  ["大拇指弯曲", "大拇指横摆","食指弯曲", "中指弯曲", "无名指弯曲","小拇指弯曲","拇指旋转"]
 
   L10: ["拇指根部", "拇指侧摆","食指根部", "中指根部", "无名指根部","小指根部","食指侧摆","无名指侧摆","小指侧摆","拇指旋转"]

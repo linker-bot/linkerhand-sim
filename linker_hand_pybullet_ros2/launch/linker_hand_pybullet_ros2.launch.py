@@ -10,7 +10,7 @@ def generate_launch_description():
             name='linker_hand_pybullet_ros2_node',
             output='screen',
             parameters=[{
-                'hand_joint': "L20",
+                'hand_joint': "L6",
             }],
         ),
     ])

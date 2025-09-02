@@ -1,9 +1,4 @@
-#!/usr/bin/env python3 
-# -*- coding: utf-8 -*-
-'''
-编译: colcon build --symlink-install
-启动命令:ros2 run linker_hand_ros2_sdk linker_hand_sdk
-'''
+
 import rclpy,math,sys                                     # ROS2 Python接口库
 from rclpy.node import Node                      # ROS2 节点类
 import rclpy.time
@@ -11,8 +6,7 @@ from std_msgs.msg import String, Header, Float32MultiArray
 from sensor_msgs.msg import JointState
 import time,threading, json
 
-#!/usr/bin/env python3 
-# -*- coding: utf-8 -*-
+
 import sys,os
 import threading
 from sensor_msgs.msg import JointState
@@ -24,6 +18,10 @@ from PyQt5.QtCore import Qt
 from .utils.mapping import *
 
 JOINT_CONFIG = {
+    "L6": {
+        "map": L6_JOINT_MAP,
+        "arc": L6_JOINT_ARC
+    },
     "L7": {
         "map": L7_JOINT_MAP,
         "arc": L7_JOINT_ARC
@@ -66,9 +64,9 @@ class MujocoNode(Node):
         self.data = mujoco.MjData(self.model)
 
 
-        print("=" * 20)
-        print(mujoco.mj_versionString())  # 查看MuJoCo版本
-        print("=" * 20)
+        print("=" * 20,flush=True)
+        print(mujoco.mj_versionString(),flush=True)  # 查看MuJoCo版本
+        print("=" * 20,flush=True)
         self.data.qpos[:] = 0
         self.data.qvel[:] = 0
         self.model.opt.disableflags = 1
@@ -79,7 +77,7 @@ class MujocoNode(Node):
         for i in range(self.model.njnt):
             joint_name = self.model.joint(i).name  # 获取第i个关节的名称
             joint_names.append(joint_name)
-            print(f"Joint {i}: {joint_name}")
+            print(f"Joint {i}: {joint_name}",flush=True)
         self.ctrl_values = np.zeros(joint_count)
 
         # 获取 actuator 控制范围（注意：actuator 不是 joint 本体）
@@ -103,26 +101,6 @@ class MujocoNode(Node):
     def hand_cb(self,data):
         tmp = []
         position = data.position
-        # p_len = len(position)
-        # if p_len == 7 and self.hand_joint == "L7":
-        #     #print("Received position length 7 for L7 hand joint.", flush=True)
-        #     pass
-        # elif p_len == 10 and self.hand_joint == "L10":
-        #     #print("Received position length 10 for L10 hand joint.", flush=True)
-        #     pass
-        # elif p_len == 20 and self.hand_joint == "L20":
-        #     #print("Received position length 20 for L20 hand joint.", flush=True)
-        #     pass
-        # elif p_len == 25 and self.hand_joint == "L21":
-        #     #print("Received position length 21 for L21 hand joint.", flush=True)
-        #     pass
-        # elif p_len == 25 and self.hand_joint == "L25":
-        #     #print("Received position length 25 for L25 hand joint.", flush=True)
-        #     pass
-        # else:
-        #     self.get_logger().error(f"Received position length {p_len} does not match expected length for {self.hand_joint}.")
-        #     return
-
         try:
             if self.joint_map is not None:
                 if self.hand_type == "left":
